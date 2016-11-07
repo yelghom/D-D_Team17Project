@@ -101,12 +101,12 @@ public:
 	void setLevel(int level);
 
 	// custom methods
-	void equipArmor(string armor);
-	void equipShield(string shield);
-	void equipWeapon(string weapon);
-	void equipBoots(string boots);
-	void equipRing(string ring);
-	void equipHelmet(string helmet);
+	string equipArmor(string armor);
+	string equipShield(string shield);
+	string equipWeapon(string weapon);
+	string equipBoots(string boots);
+	string equipRing(string ring);
+	string equipHelmet(string helmet);
 
 	void unequipArmor();
 	void unequipShield();
@@ -118,9 +118,24 @@ public:
 	bool validateNewCharacter();
 	void hit(int hitPoints);
 
+	void addToArmorInventory(string armor);
+	void addToShieldInventory(string shield);
+	void addToWeaponInventory(string weapon);
+	void addToBootsInventory(string boots);
+	void addToRingInventory(string ring);
+	void addToHelmetInventory(string helmet);
+
+	void displayInventory();
+
 private:
 	vector<int> abilityScores;
 	vector<int> abilityModifiers;
+	vector<string> armorInventory;
+	vector<string> shieldInventory;
+	vector<string> weaponInventory;
+	vector<string> bootsInventory;
+	vector<string> ringInventory;
+	vector<string>helmetInventory;
 	int hitPoints;
 	int maxHitPoints;
 	int level;
@@ -142,4 +157,10 @@ private:
 	int calculateArmorClass();
 	int calculateAttackBonus();
 	int calculateDamageBonus();
+	void displayArmorInventory();
+	void displayShieldInventory();
+	void displayWeaponInventory();
+	void displayBootsInventory();
+	void displayRingInventory();
+	void displayHelmetInventory();
 };

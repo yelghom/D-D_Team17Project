@@ -4,6 +4,8 @@
 #pragma once
 
 #include "Character.h"
+#include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -193,44 +195,62 @@ void Character::setDamageBonus(int damage)
 
 //! Equips the Character with the provided armor
 //! @param armor: the armor with which the character is equipped
-void Character::equipArmor(string armor)
+//! @return string value, the old armor of the character
+string Character::equipArmor(string armor)
 {
+	string oldArmor = equipment[0];
 	equipment[0] = armor;
+	return oldArmor;
 }
 
 //! Equips the Character with the provided shield
 //! @param shield: the shield with which the character is equipped
-void Character::equipShield(string shield)
+//! @return string value, the old shield of the character
+string Character::equipShield(string shield)
 {
+	string oldShield = equipment[1];
 	equipment[1] = shield;
+	return oldShield;
 }
 
 //! Equips the Character with the provided weapon
 //! @param weapon: the weapon with which the character is equipped
-void Character::equipWeapon(string weapon)
+//! @return string value, the old weapon of the character
+string Character::equipWeapon(string weapon)
 {
+	string oldWeapon = equipment[2];
 	equipment[2] = weapon;
+	return oldWeapon;
 }
 
 //! Equips the Character with the provided boots
 //! @param boots: the boots with which the character is equipped
-void Character::equipBoots(string boots)
+//! @return string value, the old boots of the character
+string Character::equipBoots(string boots)
 {
+	string oldBoots = equipment[3];
 	equipment[3] = boots;
+	return oldBoots;
 }
 
 //! Equips the Character with the provided ring
 //! @param ring: the ring with which the character is equipped
-void Character::equipRing(string ring)
+//! @return string value, the old ring of the character
+string Character::equipRing(string ring)
 {
+	string oldRing = equipment[4];
 	equipment[4] = ring;
+	return oldRing;
 }
 
 //! Equips the Character with the provided helmet
 //! @param helmet: the helmet with which the character is equipped
-void Character::equipHelmet(string helmet)
+//! @return string value, the old helmet of the character
+string Character::equipHelmet(string helmet)
 {
+	string oldHelmet = equipment[5];
 	equipment[5] = helmet;
+	return oldHelmet;
 }
 
 //! Removes the armor of the character.
@@ -292,6 +312,94 @@ void Character::hit(int hitPoints)
 	notify();
 }
 
+//! Adds the provided armor to the armor inventory of the Character.
+//! @param armor: the armor to be added
+void Character::addToArmorInventory(string armor)
+{
+	armorInventory.push_back(armor);
+}
+
+//! Adds the provided shield to the shield inventory of the Character.
+//! @param shield: the shield to be added
+void Character::addToShieldInventory(string shield)
+{
+	shieldInventory.push_back(shield);
+}
+
+//! Adds the provided weapon to the weapon inventory of the Character.
+//! @param weapon: the weapon to be added
+void Character::addToWeaponInventory(string weapon)
+{
+	weaponInventory.push_back(weapon);
+}
+
+//! Adds the provided boots to the boots inventory of the Character.
+//! @param boots: the boots to be added
+void Character::addToBootsInventory(string boots)
+{
+	bootsInventory.push_back(boots);
+}
+
+//! Adds the provided ring to the ring inventory of the Character.
+//! @param ring: the ring to be added
+void Character::addToRingInventory(string ring)
+{
+	ringInventory.push_back(ring);
+}
+
+//! Adds the provided helmet to the helmet inventory of the Character.
+//! @param helmet: the helmet to be added
+void Character::addToHelmetInventory(string helmet)
+{
+	helmetInventory.push_back(helmet);
+}
+
+//! Displays the entire inventory of the Character and provides a set of options to the user whether to update the Character in play.
+void Character::displayInventory()
+{
+	// display all inventories
+	displayArmorInventory();
+	displayShieldInventory();
+	displayWeaponInventory();
+	displayBootsInventory();
+	displayRingInventory();
+	displayHelmetInventory();
+
+	string userChoice;
+	string inventoryChoice;
+	char inventoryItem[8];
+	int inventoryNumber;
+	// give user the choice to equip something
+	cout << "Do you wish to equip your character with something else? " << flush;
+	cin >> userChoice;
+
+	while (userChoice == "Yes")
+	{
+		cout << "Which kind of item do you wish to change? " << flush;
+		cin >> inventoryChoice;
+		cout << "Which item do you wish to equip? " << flush;
+		cin >> inventoryNumber;
+
+
+		if (inventoryChoice == "Armor")
+			armorInventory[inventoryNumber] = equipArmor(armorInventory[inventoryNumber]);
+		else if (inventoryChoice == "Shield")
+			shieldInventory[inventoryNumber] = equipShield(shieldInventory[inventoryNumber]);
+		else if (inventoryChoice == "Weapon")
+			weaponInventory[inventoryNumber] = equipWeapon(weaponInventory[inventoryNumber]);
+		else if (inventoryChoice == "Boots")
+			bootsInventory[inventoryNumber] = equipBoots(bootsInventory[inventoryNumber]);
+		else if (inventoryChoice == "Ring")
+			ringInventory[inventoryNumber] = equipRing(ringInventory[inventoryNumber]);
+		else if (inventoryChoice == "Helmet")
+			helmetInventory[inventoryNumber] = equipHelmet(helmetInventory[inventoryNumber]);
+
+		cout << "Do you wish to equip your character with something else? " << flush;
+		cin >> userChoice;
+	}
+
+}
+
 //! Calculates a modifier value based on the provided ability score.
 //! @param abilityScore: the value which will be used to calculate the modifier
 //! @return int value, the calculated modifier value
@@ -351,4 +459,64 @@ int Character::calculateAttackBonus()
 int Character::calculateDamageBonus()
 {
 	return getStrengthModifier();
+}
+
+//! Displays the armor inventory of the Character.
+void Character::displayArmorInventory(){
+	cout << "Armor inventory:" << endl;
+	for (unsigned int i = 0; i < armorInventory.size(); i++)
+	{
+		cout << armorInventory[i] << " (" << i << "), ";
+	}
+	cout << endl;
+}
+
+//! Displays the shield inventory of the Character.
+void Character::displayShieldInventory(){
+	cout << "Shield inventory:" << endl;
+	for (unsigned int i = 0; i < shieldInventory.size(); i++)
+	{
+		cout << shieldInventory[i] << " (" << i << "), ";
+	}
+	cout << endl;
+}
+
+//! Displays the weapon inventory of the Character.
+void Character::displayWeaponInventory(){
+	cout << "Weapon inventory:" << endl;
+	for (unsigned int i = 0; i < weaponInventory.size(); i++)
+	{
+		cout << weaponInventory[i] << " (" << i << "), ";
+	}
+	cout << endl;
+}
+
+//! Displays the boots inventory of the Character.
+void Character::displayBootsInventory(){
+	cout << "Boots inventory:" << endl;
+	for (unsigned int i = 0; i < bootsInventory.size(); i++)
+	{
+		cout << bootsInventory[i] << " (" << i << "), ";
+	}
+	cout << endl;
+}
+
+//! Displays the ring inventory of the Character.
+void Character::displayRingInventory(){
+	cout << "Ring inventory:" << endl;
+	for (unsigned int i = 0; i < ringInventory.size(); i++)
+	{
+		cout << ringInventory[i] << " (" << i << "), ";
+	}
+	cout << endl;
+}
+
+//! Displays the helmet inventory of the Character.
+void Character::displayHelmetInventory(){
+	cout << "Helmet inventory:" << endl;
+	for (unsigned int i = 0; i < helmetInventory.size(); i++)
+	{
+		cout << helmetInventory[i] << " (" << i << "), ";
+	}
+	cout << endl;
 }
