@@ -1,7 +1,6 @@
 //! @file Character.cpp
 //! @brief Concrete implementation of the Character class
 //! @author Venelin Koulaxazov, 26982425
-#pragma once
 
 #include "Character.h"
 #include <iostream>
@@ -31,6 +30,10 @@ Character::Character()
 	armorClass = calculateArmorClass();
 	attackBonus = calculateAttackBonus();
 	damageBonus = calculateDamageBonus();
+	
+	// Set the Character's initial coordinates
+	xCoordinate = 1;
+	yCoordinate = 1;
 }
 
 //! Constructor setting the members to the user preferences
@@ -55,6 +58,10 @@ Character::Character(int str, int dex, int con, int intel, int wis, int cha)
 	armorClass = calculateArmorClass();
 	attackBonus = calculateAttackBonus();
 	damageBonus = calculateDamageBonus();
+
+	// Set the Character's initial coordinates
+	xCoordinate = 1;
+	yCoordinate = 1;
 }
 
 //! Destructor
@@ -189,6 +196,20 @@ void Character::setAttackBonus(int attack)
 void Character::setDamageBonus(int damage)
 {
 	this->damageBonus = damage;
+}
+
+//! Sets the x coordinate of the Character.
+//! @param xCoordinate, the x coordinate
+void Character::setXCoordinate(int xCoordinate)
+{
+	this->xCoordinate = xCoordinate;
+}
+
+//! Sets the y coordinate of the Character.
+//! @param yCoordinate, the y coordinate
+void Character::setYCoordinate(int yCoordinate)
+{
+	this->yCoordinate = yCoordinate;
 }
 
 // Custom methods

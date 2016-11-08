@@ -86,6 +86,14 @@ public:
 	//! @return int value, the level.
 	int getLevel() const { return level; }
 
+	//! Gets the x coordinate of the Character on the map.
+	//! @return int value, the x coordinate.
+	int getXCoordinate() const { return xCoordinate; }
+
+	//! Gets the y coordinate of the Character on the map.
+	//! @return int value, the y coordinate.
+	int getYCoordinate() const { return yCoordinate; }
+
 	int getAttackBonus();
 	int getDamageBonus();
 	int getArmorClass();
@@ -99,6 +107,8 @@ public:
 	void setWisdom(int wis);
 	void setCharisma(int cha);
 	void setLevel(int level);
+	void setXCoordinate(int xCoordinate);
+	void setYCoordinate(int yCoordinate);
 
 	// custom methods
 	string equipArmor(string armor);
@@ -142,6 +152,8 @@ private:
 	int attackBonus;
 	int damageBonus;
 	int armorClass;
+	int xCoordinate;
+	int yCoordinate;
 	string name;
 	// type is to be changed from string to Item for intermediate project delivery
 	string equipment[6];

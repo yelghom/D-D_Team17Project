@@ -22,8 +22,13 @@ public:
 	//! Opens the chest and gets the item contained in the chest.
 	//! @return string value, the item contained in the chest
 	string openChest() const { return item; }
+
+	//! Gives the type of the item in the chest.
+	//! @return string value, the type of item in the chest
+	string chestItemType() const { return itemType; }
 	
 private:
 	string item;
+	string itemType;
 	int static chestItem;
 };
