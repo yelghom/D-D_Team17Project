@@ -39,10 +39,10 @@ void gameLoop(Character* c)
 	// print map
 
 	char userChoice;
-	cout << "Direction of Character (w,a,s,d) " << flush;
+	cout << "Direction of Character (w,a,s,d) or Inventory Panel (i)" << flush;
 	cin >> userChoice;
 
-	while (userChoice == 'w' || userChoice == 'a' || userChoice == 's' || userChoice == 'd')
+	while (userChoice == 'w' || userChoice == 'a' || userChoice == 's' || userChoice == 'd' || userChoice == 'i')
 	{
 		switch (userChoice)
 		{
@@ -97,6 +97,9 @@ void gameLoop(Character* c)
 				c->setXCoordinate(c->getXCoordinate + 1); // move character down and open chest
 				openChest(c, new Chest());
 			}			
+			break;
+		case 'i':
+			c->displayInventory();
 		}
 
 
