@@ -4,15 +4,23 @@
 
 #include "Character.h"
 #include "Chest.h"
+#include "Map.h"
 #include <iostream>
 #include <string>
+Character* setupCharacter();
+void gameLoop(Character* c);
+void openChest(Character* c, Chest* chest);
+
+int Chest::chestItem = 1;
 
 //! Controls the flow of the entire application.
 void main(int argc, char* argv[])
 {
 	Character *conan = setupCharacter();
+	Map *map = new Map();
+	map->printMap();
 
-	gameLoop();
+	//gameLoop(conan);
 }
 
 //! Helper method to create a Character with some basic inventory.
@@ -39,7 +47,7 @@ void gameLoop(Character* c)
 	// print map
 
 	char userChoice;
-	cout << "Direction of Character (w,a,s,d) or Inventory Panel (i)" << flush;
+	cout << "Direction of Character (w,a,s,d) or Inventory Panel (i) " << flush;
 	cin >> userChoice;
 
 	while (userChoice == 'w' || userChoice == 'a' || userChoice == 's' || userChoice == 'd' || userChoice == 'i')
@@ -52,10 +60,10 @@ void gameLoop(Character* c)
 			case '#':
 				break; // cannot move past a wall
 			case ' ':
-				c->setYCoordinate(c->getYCoordinate - 1); // empty cell, move character up
+				c->setYCoordinate(c->getYCoordinate() - 1); // empty cell, move character up
 				break;
 			case '?':
-				c->setYCoordinate(c->getYCoordinate - 1); // move character up and open chest
+				c->setYCoordinate(c->getYCoordinate() - 1); // move character up and open chest
 				openChest(c, new Chest());
 			}
 			break;
@@ -65,10 +73,10 @@ void gameLoop(Character* c)
 			case '#':
 				break; // cannot move past a wall
 			case ' ':
-				c->setXCoordinate(c->getXCoordinate - 1); // empty cell move character up
+				c->setXCoordinate(c->getXCoordinate() - 1); // empty cell move character up
 				break;
 			case '?':
-				c->setXCoordinate(c->getXCoordinate - 1); // move character left and open chest
+				c->setXCoordinate(c->getXCoordinate() - 1); // move character left and open chest
 				openChest(c, new Chest());
 			}
 			break;
@@ -78,10 +86,10 @@ void gameLoop(Character* c)
 			case '#':
 				break; // cannot move past a wall
 			case ' ':
-				c->setYCoordinate(c->getYCoordinate + 1); // empty cell move character down
+				c->setYCoordinate(c->getYCoordinate() + 1); // empty cell move character down
 				break;
 			case '?':
-				c->setYCoordinate(c->getYCoordinate + 1); // move character down and open chest
+				c->setYCoordinate(c->getYCoordinate() + 1); // move character down and open chest
 				openChest(c, new Chest());
 			}
 			break;
@@ -91,10 +99,10 @@ void gameLoop(Character* c)
 			case '#':
 				break; // cannot move past a wall
 			case ' ':
-				c->setXCoordinate(c->getXCoordinate + 1); // empty cell move character down
+				c->setXCoordinate(c->getXCoordinate() + 1); // empty cell move character down
 				break;
 			case '?':
-				c->setXCoordinate(c->getXCoordinate + 1); // move character down and open chest
+				c->setXCoordinate(c->getXCoordinate() + 1); // move character down and open chest
 				openChest(c, new Chest());
 			}			
 			break;
@@ -103,8 +111,8 @@ void gameLoop(Character* c)
 		}
 
 
-		// print map
-		cout << "Direction of Character (w,a,s,d) " << flush;
+		// print updated map
+		cout << "Direction of Character (w,a,s,d) or Inventory Panel (i) " << flush;
 		cin >> userChoice;
 	}
 }
@@ -112,19 +120,19 @@ void gameLoop(Character* c)
 //! Opens the chest and adds the item to the inventory panel of the Character.
 //! @param c, the character
 //! @param chest, the chest to be opened
-void openChest(Character* c, Chest* chest) 
+void openChest(Character* c, Chest* chest)
 {
 	if (chest->chestItemType() == "Armor")
-		c->addToArmorInventory(chest->openChest);
+		c->addToArmorInventory(chest->openChest());
 	else if (chest->chestItemType() == "Shield")
-		c->addToShieldInventory(chest->openChest);
+		c->addToShieldInventory(chest->openChest());
 	else if (chest->chestItemType() == "Weapon")
-		c->addToWeaponInventory(chest->openChest);
+		c->addToWeaponInventory(chest->openChest());
 	else if (chest->chestItemType() == "Boots")
-		c->addToBootsInventory(chest->openChest);
+		c->addToBootsInventory(chest->openChest());
 	else if (chest->chestItemType() == "Ring")
-		c->addToRingInventory(chest->openChest);
+		c->addToRingInventory(chest->openChest());
 	else if (chest->chestItemType() == "Helmet")
-		c->addToHelmetInventory(chest->openChest);
+		c->addToHelmetInventory(chest->openChest());
 }
 

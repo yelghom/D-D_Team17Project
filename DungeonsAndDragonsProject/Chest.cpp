@@ -13,27 +13,27 @@ Chest::Chest()
 	switch (rand() % 6)
 	{
 	case 1:
-		item = "armor" + ++chestItem;
+		item = "armor" + nextChestItem();
 		itemType = "Armor";
 		break;
 	case 2:
-		item = "shield" + ++chestItem;
+		item = "shield" + nextChestItem();
 		itemType = "Shield";
 		break;
 	case 3:
-		item = "weapon" + ++chestItem;
+		item = "weapon" + nextChestItem();
 		itemType = "Weapon";
 		break;
 	case 4:
-		item = "boots" + ++chestItem;
+		item = "boots" + nextChestItem();
 		itemType = "Boots";
 		break;
 	case 5:
-		item = "ring" + ++chestItem;
+		item = "ring" + nextChestItem();
 		itemType = "Ring";
 		break;
 	case 6:
-		item = "helmet" + ++chestItem;
+		item = "helmet" + nextChestItem();
 		itemType = "Helmet";
 	}
 }

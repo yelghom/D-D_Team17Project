@@ -15,7 +15,7 @@ public:
 	Chest();
 
 	//! Destructor.
-	virtual ~Chest();
+	~Chest();
 
 	// getters
 
@@ -26,9 +26,13 @@ public:
 	//! Gives the type of the item in the chest.
 	//! @return string value, the type of item in the chest
 	string chestItemType() const { return itemType; }
+
+	//! Increments the chest item counter.
+	//! @return int value, the chest item counter
+	static int nextChestItem() { return chestItem++; }
 	
 private:
+	static int chestItem;
 	string item;
 	string itemType;
-	int static chestItem;
 };
