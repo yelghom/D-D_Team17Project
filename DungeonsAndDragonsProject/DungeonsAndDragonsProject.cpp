@@ -8,8 +8,9 @@
 #include <iostream>
 #include <string>
 Character* setupCharacter();
-void gameLoop(Character* c);
+void gameLoop(Character* c, Map* map);
 void openChest(Character* c, Chest* chest);
+void populateMap(Map* map);
 
 int Chest::chestItem = 1;
 
@@ -20,7 +21,9 @@ void main(int argc, char* argv[])
 	Map *map = new Map();
 	map->printMap();
 
-	//gameLoop(conan);
+	system("PAUSE");
+
+	//gameLoop(conan, map);
 }
 
 //! Helper method to create a Character with some basic inventory.
@@ -42,12 +45,14 @@ Character* setupCharacter()
 //! Responsible for the game loop, i.e. takes in the user input that will correspond to where the Character should move.
 //! @param c, the character
 //! @param map, the map
-void gameLoop(Character* c)
+void gameLoop(Character* c, Map* map)
 {
 	// print map
+	map->printMap();
 
+	// Get the user choice for directions
 	char userChoice;
-	cout << "Direction of Character (w,a,s,d) or Inventory Panel (i) " << flush;
+	cout << "Direction of Character (w,a,s,d) or Inventory Panel (i)  or End Game (e) " << flush;
 	cin >> userChoice;
 
 	while (userChoice == 'w' || userChoice == 'a' || userChoice == 's' || userChoice == 'd' || userChoice == 'i')
@@ -55,7 +60,7 @@ void gameLoop(Character* c)
 		switch (userChoice)
 		{
 		case 'w': // user wants to go up
-			switch (userChoice) // stub for now should be    map[c->getXCoordinate()][c->getYCoordinate() - 1]
+			switch (map->getCellAt(c->getXCoordinate(), c->getYCoordinate() - 1).getType()) 
 			{
 			case '#':
 				break; // cannot move past a wall
@@ -68,7 +73,7 @@ void gameLoop(Character* c)
 			}
 			break;
 		case 'a': // user wants to go left
-			switch (userChoice) // stub for now should be    map[c->getXCoordinate() - 1][c->getYCoordinate()])
+			switch (map->getCellAt(c->getXCoordinate() - 1, c->getYCoordinate()).getType())
 			{
 			case '#':
 				break; // cannot move past a wall
@@ -81,7 +86,7 @@ void gameLoop(Character* c)
 			}
 			break;
 		case 's': // user wants to go down
-			switch (userChoice) // stub for now should be    map[c->getXCoordinate()][c->getYCoordinate() + 1])
+			switch (map->getCellAt(c->getXCoordinate(), c->getYCoordinate() + 1).getType())
 			{
 			case '#':
 				break; // cannot move past a wall
@@ -94,7 +99,7 @@ void gameLoop(Character* c)
 			}
 			break;
 		case 'd': // user wants to go right
-			switch (userChoice) // stub for now should be    map[c->getXCoordinate() + 1][c->getYCoordinate()])
+			switch (map->getCellAt(c->getXCoordinate() + 1, c->getYCoordinate()).getType()) 
 			{
 			case '#':
 				break; // cannot move past a wall
@@ -111,10 +116,21 @@ void gameLoop(Character* c)
 		}
 
 
-		// print updated map
-		cout << "Direction of Character (w,a,s,d) or Inventory Panel (i) " << flush;
+		// print updated map and ask for future directions
+		map->printMap();
+		cout << "Direction of Character (w,a,s,d) or Inventory Panel (i)  or End Game (e) " << flush;
 		cin >> userChoice;
 	}
+
+	cout << "Do you wish to save this map for a later game? Yes (y) or No (n) " << flush;
+	cin >> userChoice;
+
+	if (userChoice == 'y')
+		map->saveMap();
+
+	cout << "Map successfully saved. Goodbye." << flush;
+	cin >> userChoice;
+
 }
 
 //! Opens the chest and adds the item to the inventory panel of the Character.
@@ -134,5 +150,12 @@ void openChest(Character* c, Chest* chest)
 		c->addToRingInventory(chest->openChest());
 	else if (chest->chestItemType() == "Helmet")
 		c->addToHelmetInventory(chest->openChest());
+}
+
+//! Populates the map with multiple cells to provide a more interactive game.
+//! @param map, the map to be populated
+void populateMap(Map* map)
+{
+
 }
 

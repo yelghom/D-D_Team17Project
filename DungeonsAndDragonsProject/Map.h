@@ -22,14 +22,19 @@ public:
 
 	//! Destructor
 	~Map();
-	void initializeMap(int x, int y);
+
+	Cell getCellAt(int x, int y);
+
+	void initializeMap();
 	void printMap();
 	void updatemap();
 	
 	void WallCellAt(int x, int y);
 	void ChestCellAt(int x, int y);
-	void EntranceCellAt(int x, int y);
-	void ExitBlockAt(int x, int y);
+	void EmptyCellAt(int x, int y);
+	void CharacterCellAt(int x, int y);
+	void ExitMapCellAt(int x, int y);
+
 	void saveMap();
 
 private:
