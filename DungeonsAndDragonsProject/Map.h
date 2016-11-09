@@ -29,11 +29,11 @@ public:
 	void printMap();
 	void updatemap();
 	
-	void WallCellAt(int x, int y);
-	void ChestCellAt(int x, int y);
-	void EmptyCellAt(int x, int y);
-	void CharacterCellAt(int x, int y);
-	void ExitMapCellAt(int x, int y);
+	void wallCellAt(int x, int y);
+	void chestCellAt(int x, int y);
+	void emptyCellAt(int x, int y);
+	void characterCellAt(int x, int y);
+	void exitMapCellAt(int x, int y);
 
 	void saveMap();
 

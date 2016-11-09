@@ -12,28 +12,28 @@ Chest::Chest()
 {
 	switch (rand() % 6)
 	{
-	case 1:
-		item = "armor" + nextChestItem();
+	case 0:
+		item = "armor" + to_string(nextChestItem());
 		itemType = "Armor";
 		break;
-	case 2:
-		item = "shield" + nextChestItem();
+	case 1:
+		item = "shield" + to_string(nextChestItem());
 		itemType = "Shield";
 		break;
-	case 3:
-		item = "weapon" + nextChestItem();
+	case 2:
+		item = "weapon" + to_string(nextChestItem());
 		itemType = "Weapon";
 		break;
-	case 4:
-		item = "boots" + nextChestItem();
+	case 3:
+		item = "boots" + to_string(nextChestItem());
 		itemType = "Boots";
 		break;
-	case 5:
-		item = "ring" + nextChestItem();
+	case 4:
+		item = "ring" + to_string(nextChestItem());
 		itemType = "Ring";
 		break;
-	case 6:
-		item = "helmet" + nextChestItem();
+	case 5:
+		item = "helmet" + to_string(nextChestItem());
 		itemType = "Helmet";
 	}
 }

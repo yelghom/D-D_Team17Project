@@ -33,7 +33,7 @@ void gameLoop(Character* c, Map* map)
 
 	// Get the user choice for directions
 	char userChoice;
-	cout << "Direction of Character (w,a,s,d) or Inventory Panel (i)  or End Game (e) " << flush;
+	cout << "Direction of Character (w,a,s,d) or Inventory Panel (i)  or End Game (e): " << flush;
 	cin >> userChoice;
 
 	while (userChoice == 'w' || userChoice == 'a' || userChoice == 's' || userChoice == 'd' || userChoice == 'i')
@@ -46,15 +46,15 @@ void gameLoop(Character* c, Map* map)
 			case '#':
 				break; // cannot move past a wall
 			case ' ':
-				map->EmptyCellAt(c->getXCoordinate(), c->getYCoordinate());
+				map->emptyCellAt(c->getXCoordinate(), c->getYCoordinate());
 				c->setXCoordinate(c->getXCoordinate() - 1); // empty cell, move character up
-				map->CharacterCellAt(c->getXCoordinate(), c->getYCoordinate());
+				map->characterCellAt(c->getXCoordinate(), c->getYCoordinate());
 				break;
 			case '?':
-				map->EmptyCellAt(c->getXCoordinate(), c->getYCoordinate());
+				map->emptyCellAt(c->getXCoordinate(), c->getYCoordinate());
 				c->setXCoordinate(c->getXCoordinate() - 1); // move character up and open chest
 				openChest(c, new Chest());
-				map->CharacterCellAt(c->getXCoordinate(), c->getYCoordinate());
+				map->characterCellAt(c->getXCoordinate(), c->getYCoordinate());
 			}
 			break;
 		case 'a': // user wants to go left
@@ -63,15 +63,15 @@ void gameLoop(Character* c, Map* map)
 			case '#':
 				break; // cannot move past a wall
 			case ' ':
-				map->EmptyCellAt(c->getXCoordinate(), c->getYCoordinate());
+				map->emptyCellAt(c->getXCoordinate(), c->getYCoordinate());
 				c->setYCoordinate(c->getYCoordinate() - 1); // empty cell move character up
-				map->CharacterCellAt(c->getXCoordinate(), c->getYCoordinate());
+				map->characterCellAt(c->getXCoordinate(), c->getYCoordinate());
 				break;
 			case '?':
-				map->EmptyCellAt(c->getXCoordinate(), c->getYCoordinate());
+				map->emptyCellAt(c->getXCoordinate(), c->getYCoordinate());
 				c->setYCoordinate(c->getYCoordinate() - 1); // move character left and open chest
 				openChest(c, new Chest());
-				map->CharacterCellAt(c->getXCoordinate(), c->getYCoordinate());
+				map->characterCellAt(c->getXCoordinate(), c->getYCoordinate());
 			}
 			break;
 		case 's': // user wants to go down
@@ -80,15 +80,15 @@ void gameLoop(Character* c, Map* map)
 			case '#':
 				break; // cannot move past a wall
 			case ' ':
-				map->EmptyCellAt(c->getXCoordinate(), c->getYCoordinate());
+				map->emptyCellAt(c->getXCoordinate(), c->getYCoordinate());
 				c->setXCoordinate(c->getXCoordinate() + 1); // empty cell move character down
-				map->CharacterCellAt(c->getXCoordinate(), c->getYCoordinate());
+				map->characterCellAt(c->getXCoordinate(), c->getYCoordinate());
 				break;
 			case '?':
-				map->EmptyCellAt(c->getXCoordinate(), c->getYCoordinate());
+				map->emptyCellAt(c->getXCoordinate(), c->getYCoordinate());
 				c->setXCoordinate(c->getXCoordinate() + 1); // move character down and open chest
 				openChest(c, new Chest());
-				map->CharacterCellAt(c->getXCoordinate(), c->getYCoordinate());
+				map->characterCellAt(c->getXCoordinate(), c->getYCoordinate());
 			}
 			break;
 		case 'd': // user wants to go right
@@ -97,15 +97,15 @@ void gameLoop(Character* c, Map* map)
 			case '#':
 				break; // cannot move past a wall
 			case ' ':
-				map->EmptyCellAt(c->getXCoordinate(), c->getYCoordinate());
+				map->emptyCellAt(c->getXCoordinate(), c->getYCoordinate());
 				c->setYCoordinate(c->getYCoordinate() + 1); // empty cell move character down
-				map->CharacterCellAt(c->getXCoordinate(), c->getYCoordinate());
+				map->characterCellAt(c->getXCoordinate(), c->getYCoordinate());
 				break;
 			case '?':
-				map->EmptyCellAt(c->getXCoordinate(), c->getYCoordinate());
+				map->emptyCellAt(c->getXCoordinate(), c->getYCoordinate());
 				c->setYCoordinate(c->getYCoordinate() + 1); // move character down and open chest
 				openChest(c, new Chest());
-				map->CharacterCellAt(c->getXCoordinate(), c->getYCoordinate());
+				map->characterCellAt(c->getXCoordinate(), c->getYCoordinate());
 			}			
 			break;
 		case 'i':
@@ -172,8 +172,39 @@ Character* setupCharacter()
 Map* setupMap(Character* c)
 {
 	Map *map = new Map();
-	map->CharacterCellAt(c->getXCoordinate(), c->getYCoordinate());
+	map->characterCellAt(c->getXCoordinate(), c->getYCoordinate());
+	
+	// create chest cells
+	map->chestCellAt(6, 6);
+	map->chestCellAt(2, 5);
+	map->chestCellAt(3, 11);
+	map->chestCellAt(6, 8);
 
+	// create extra wall cells
+	map->wallCellAt(1, 4);
+	map->wallCellAt(2, 4);
+	map->wallCellAt(3, 4);
+	map->wallCellAt(5, 4);
+	map->wallCellAt(3, 5);
+	map->wallCellAt(5, 5);
+	map->wallCellAt(2, 6);
+	map->wallCellAt(3, 6);
+	map->wallCellAt(5, 6);
+	map->wallCellAt(5, 7);
+	map->wallCellAt(6, 7);
+	map->wallCellAt(5, 8);
+	map->wallCellAt(5, 9);
+	map->wallCellAt(2, 10);
+	map->wallCellAt(3, 10);
+	map->wallCellAt(4, 10);
+	map->wallCellAt(5, 10);
+	map->wallCellAt(2, 11);
+	map->wallCellAt(2, 12);
+	map->wallCellAt(3, 12);
+	map->wallCellAt(4, 12);
+
+	// create exit map cell
+	map->exitMapCellAt(5, 15);
 	return map;
 }
 

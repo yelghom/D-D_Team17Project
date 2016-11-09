@@ -15,8 +15,8 @@
 #include <iostream>
 using namespace std;
 
-#define DEFAULT_LENGTH_X 16
-#define DEFAULT_WIDTH_Y  32
+#define DEFAULT_LENGTH_X 8
+#define DEFAULT_WIDTH_Y  16
 
 using namespace std;
 
@@ -114,14 +114,14 @@ Cell Map::getCellAt(int x, int y)
 //! Places a Wall Cell at the following x and y coordiantes.
 //! @param x, the x coordinate
 //! @param y, the y coordinate
-void Map::WallCellAt(int x, int y)
+void Map::wallCellAt(int x, int y)
 {
 	while (x < 0 || x >= gridLengthX - 1 || y < 0 || y >= gridWidthY - 1)
 	{
 		cout << "Undefined coordinates, please try again." << endl;
 		cin >> x;
 		cin >> y;
-		WallCellAt(x, y);
+		wallCellAt(x, y);
 	};
 
 	mapGrid[x][y] = *new WallCell();
@@ -130,14 +130,14 @@ void Map::WallCellAt(int x, int y)
 //! Places a Chest Cell at the following x and y coordiantes.
 //! @param x, the x coordinate
 //! @param y, the y coordinate
-void Map::ChestCellAt(int x, int y)
+void Map::chestCellAt(int x, int y)
 {
 	while (x < 0 || x >= gridLengthX - 1 || y < 0 || y >= gridWidthY - 1) 
 	{
 		cout << "Undefined coordinates, please try again." << endl;
 		cin >> x;
 		cin >> y;
-		ChestCellAt(x, y);
+		chestCellAt(x, y);
 	};
 
 	mapGrid[x][y] = *new ChestCell();
@@ -146,14 +146,14 @@ void Map::ChestCellAt(int x, int y)
 //! Places a Empty Cell at the following x and y coordinates.
 //! @param x, the x coordinate
 //! @param y, the y coordinate
-void Map::EmptyCellAt(int x, int y)
+void Map::emptyCellAt(int x, int y)
 {
 	while (x < 0 || x >= gridLengthX || y < 0 || y >= gridWidthY) 
 	{
 		cout << "Undefined coordinates, please try again." << endl;
 		cin >> x;
 		cin >> y;
-		EmptyCellAt(x, y);
+		emptyCellAt(x, y);
 	};
 
 	mapGrid[x][y] = *new EmptyCell();
@@ -162,14 +162,14 @@ void Map::EmptyCellAt(int x, int y)
 //! Places a Character Cell at the following x and y coordinates.
 //! @param x, the x coordinate
 //! @param y, the y coordinate
-void Map::CharacterCellAt(int x, int y)
+void Map::characterCellAt(int x, int y)
 {
 	while (x < 0 || x >= gridLengthX || y < 0 || y >= gridWidthY) 
 	{
 		cout << "Undefined coordinates, please try again." << endl;
 		cin >> x;
 		cin >> y;
-		CharacterCellAt(x, y);
+		characterCellAt(x, y);
 	};
 
 	mapGrid[x][y] = *new CharacterCell();
@@ -178,14 +178,14 @@ void Map::CharacterCellAt(int x, int y)
 //! Places a Exit Map Cell at the following x and y coordinates.
 //! @param x, the x coordinate
 //! @param y, the y coordinate
-void Map::ExitMapCellAt(int x, int y)
+void Map::exitMapCellAt(int x, int y)
 {
 	while (x < 0 || x >= gridLengthX || y < 0 || y >= gridWidthY)
 	{
 		cout << "Undefined coordinates, please try again." << endl;
 		cin >> x;
 		cin >> y;
-		ExitMapCellAt(x, y);
+		exitMapCellAt(x, y);
 	};
 
 	mapGrid[x][y] = *new ExitMapCell();
