@@ -16,7 +16,7 @@
 using namespace std;
 
 #define DEFAULT_LENGTH_X 16
-#define DEFAULT_WIDTH_Y  16
+#define DEFAULT_WIDTH_Y  32
 
 using namespace std;
 
@@ -118,15 +118,13 @@ void Map::WallCellAt(int x, int y)
 {
 	while (x < 0 || x >= gridLengthX - 1 || y < 0 || y >= gridWidthY - 1)
 	{
-		cout << "undefined index please try again" << endl;
+		cout << "Undefined coordinates, please try again." << endl;
 		cin >> x;
 		cin >> y;
 		WallCellAt(x, y);
-
 	};
 
 	mapGrid[x][y] = *new WallCell();
-
 }
 
 //! Places a Chest Cell at the following x and y coordiantes.
@@ -136,11 +134,10 @@ void Map::ChestCellAt(int x, int y)
 {
 	while (x < 0 || x >= gridLengthX - 1 || y < 0 || y >= gridWidthY - 1) 
 	{
-		cout << "undefined index please try again" << endl;
+		cout << "Undefined coordinates, please try again." << endl;
 		cin >> x;
 		cin >> y;
 		ChestCellAt(x, y);
-
 	};
 
 	mapGrid[x][y] = *new ChestCell();
@@ -153,11 +150,10 @@ void Map::EmptyCellAt(int x, int y)
 {
 	while (x < 0 || x >= gridLengthX || y < 0 || y >= gridWidthY) 
 	{
-		cout << "undefined index please try again" << endl;
+		cout << "Undefined coordinates, please try again." << endl;
 		cin >> x;
 		cin >> y;
-		ExitMapCellAt(x, y);
-
+		EmptyCellAt(x, y);
 	};
 
 	mapGrid[x][y] = *new EmptyCell();
@@ -170,12 +166,10 @@ void Map::CharacterCellAt(int x, int y)
 {
 	while (x < 0 || x >= gridLengthX || y < 0 || y >= gridWidthY) 
 	{
-
-		cout << "undefined index please try again" << endl;
+		cout << "Undefined coordinates, please try again." << endl;
 		cin >> x;
 		cin >> y;
-		ExitMapCellAt(x, y);
-
+		CharacterCellAt(x, y);
 	};
 
 	mapGrid[x][y] = *new CharacterCell();
@@ -188,11 +182,10 @@ void Map::ExitMapCellAt(int x, int y)
 {
 	while (x < 0 || x >= gridLengthX || y < 0 || y >= gridWidthY)
 	{
-		cout << "undefined index please try again" << endl;
+		cout << "Undefined coordinates, please try again." << endl;
 		cin >> x;
 		cin >> y;
 		ExitMapCellAt(x, y);
-
 	};
 
 	mapGrid[x][y] = *new ExitMapCell();
@@ -204,18 +197,14 @@ void Map::saveMap()
 
 	if (myfile.is_open())
 	{
-
-		for (int i = 0; i < gridLengthX; i++){
-
-			for (unsigned int j = 0; j < gridWidthY; j++){
-
+		for (int i = 0; i < gridLengthX; i++)
+		{
+			for (unsigned int j = 0; j < gridWidthY; j++)
 				myfile << mapGrid[i][j].getType();
-			}
-
 			myfile << endl;
 		}
 		myfile.close();
 	}
-	else cout << "Unable to open file";
-
+	else 
+		cout << "Unable to open file";
 }

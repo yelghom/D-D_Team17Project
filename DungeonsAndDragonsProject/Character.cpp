@@ -391,10 +391,10 @@ void Character::displayInventory()
 	char inventoryItem[8];
 	int inventoryNumber;
 	// give user the choice to equip something
-	cout << "Do you wish to equip your character with something else? " << flush;
+	cout << "Do you wish to equip your character with something else? Yes (y) or No (n): " << flush;
 	cin >> userChoice;
 
-	while (userChoice == "Yes")
+	while (userChoice == "y")
 	{
 		cout << "Which kind of item do you wish to change? " << flush;
 		cin >> inventoryChoice;

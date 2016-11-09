@@ -5,7 +5,7 @@
 #include "CharacterCell.h"
 
 //! Default Constructor setting the type to a Character Cell
-CharacterCell::CharacterCell() : Cell('c')
+CharacterCell::CharacterCell() : Cell('C')
 {
 }
 
