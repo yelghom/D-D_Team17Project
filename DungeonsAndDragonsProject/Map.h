@@ -36,6 +36,9 @@ public:
 	void exitMapCellAt(int x, int y);
 
 	void saveMap();
+	void loadMap(string s);
+	int loadmaplengthX(string s);
+	int loadmapwidthY(string s);
 
 private:
 	unsigned int gridLengthX;

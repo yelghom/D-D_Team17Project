@@ -208,3 +208,85 @@ void Map::saveMap()
 	else 
 		cout << "Unable to open file";
 }
+
+// returns the loaded map's length
+void Map::loadmaplengthX(string s){
+	
+	ifstream file(s);
+	char input[100];
+	int i = 0;
+	
+	while (file.getline(input, sizeof(input)))
+	{
+
+		i++;
+	}
+
+	return i;
+	
+}
+
+void Map::loadmapwidthY(string s){
+	
+	int j = 0;
+	char ch;
+	fstream fin(s, fstream::in);
+	while (fin >> noskipws >> ch)
+	{
+		if (ch == '\n')
+		{
+			break;
+		}
+		j++;
+	}
+	return j;
+	
+}
+
+void Map::loadMap(string s){
+		fstream fin("myMap.txt", fstream::in);
+	char h;
+	int k = 0;
+	int l = 0;
+	
+	//loops through the grid and maps the characters of the map to the corresponding object cell
+	for (k = 0; k <= gridLengthX; k++)
+	{
+		for (l = 0; l <= gridWidthY; l++)
+		{ 
+			while ((fin >> noskipws >> h) )
+			{
+			
+				 if ( h == '#'){
+				mapgrid[k][l]= * new wallCell();
+				}
+				 else if (h=='?')
+				 {
+					 mapgrid[k][l] = * new chestCell();
+				 }
+				  else if (h=='-')
+				 {
+					 mapgrid[k][l] = * new ExitMapCell();
+				 }
+			
+				 else
+				 {
+					 mapgrid[k][l] = * new cell();
+				 }
+				
+				break;
+			}
+			
+		}
+		
+	}
+
+	}
+	
+	
+}
+
+
+
+
+
