@@ -32,12 +32,6 @@ Map::Map()
 	initializeMap();
 }
 
-Map::Map(string s)
-{
-
-
-}
-
 //! Constructor that takes custom length and width of the map that is to be created
 Map::Map(int x, int y)
 {
@@ -87,21 +81,6 @@ void Map::printMap()
 	}
 }
 
-void Map::updatemap()
-{
-	Cell **mapgrid = new Cell*[gridLengthX];
-	//map currentmapgrid = new
-
-	for (unsigned int i = 0; i < gridLengthX; i++)
-	{
-		for (unsigned int j = 0; j < gridWidthY; j++)
-		{
-
-		}
-
-	}
-}
-
 //! Gets the Cell at the specified x and y coordinates.
 //! @param x, the x coordinate
 //! @param y, the y coordinate
@@ -132,7 +111,7 @@ void Map::wallCellAt(int x, int y)
 //! @param y, the y coordinate
 void Map::chestCellAt(int x, int y)
 {
-	while (x < 0 || x >= gridLengthX - 1 || y < 0 || y >= gridWidthY - 1) 
+	while (x < 0 || x >= gridLengthX - 1 || y < 0 || y >= gridWidthY - 1)
 	{
 		cout << "Undefined coordinates, please try again." << endl;
 		cin >> x;
@@ -148,7 +127,7 @@ void Map::chestCellAt(int x, int y)
 //! @param y, the y coordinate
 void Map::emptyCellAt(int x, int y)
 {
-	while (x < 0 || x >= gridLengthX || y < 0 || y >= gridWidthY) 
+	while (x < 0 || x >= gridLengthX || y < 0 || y >= gridWidthY)
 	{
 		cout << "Undefined coordinates, please try again." << endl;
 		cin >> x;
@@ -164,7 +143,7 @@ void Map::emptyCellAt(int x, int y)
 //! @param y, the y coordinate
 void Map::characterCellAt(int x, int y)
 {
-	while (x < 0 || x >= gridLengthX || y < 0 || y >= gridWidthY) 
+	while (x < 0 || x >= gridLengthX || y < 0 || y >= gridWidthY)
 	{
 		cout << "Undefined coordinates, please try again." << endl;
 		cin >> x;
@@ -191,6 +170,7 @@ void Map::exitMapCellAt(int x, int y)
 	mapGrid[x][y] = *new ExitMapCell();
 }
 
+//! Saves the current map to a file
 void Map::saveMap()
 {
 	ofstream myfile("myMap.txt");
@@ -205,88 +185,63 @@ void Map::saveMap()
 		}
 		myfile.close();
 	}
-	else 
+	else
 		cout << "Unable to open file";
 }
 
-// returns the loaded map's length
-void Map::loadmaplengthX(string s){
-	
+//! Returns the loaded map's length.
+//! @param s, the file that contains the map
+//! @return int value, the length of the map
+int Map::loadMapLengthX(string s){
+
 	ifstream file(s);
 	char input[100];
 	int i = 0;
-	
-	while (file.getline(input, sizeof(input)))
-	{
 
+	while (file.getline(input, sizeof(input)))
 		i++;
-	}
 
 	return i;
-	
 }
+//! Returns the loaded map's width.
+//! @param s, the file that contains the map
+//! @return int value, the width of the map
+int Map::loadMapWidthY(string s){
 
-void Map::loadmapwidthY(string s){
-	
 	int j = 0;
 	char ch;
 	fstream fin(s, fstream::in);
 	while (fin >> noskipws >> ch)
 	{
 		if (ch == '\n')
-		{
 			break;
-		}
 		j++;
 	}
 	return j;
-	
 }
 
+//! Loads the map from a file.
+//! @param s, the file where the map is stored
 void Map::loadMap(string s){
-		fstream fin("myMap.txt", fstream::in);
+	fstream fin("myMap.txt", fstream::in);
 	char h;
 	int k = 0;
 	int l = 0;
-	
+
 	//loops through the grid and maps the characters of the map to the corresponding object cell
 	for (k = 0; k <= gridLengthX; k++)
+	for (l = 0; l <= gridWidthY; l++)
+	while ((fin >> noskipws >> h))
 	{
-		for (l = 0; l <= gridWidthY; l++)
-		{ 
-			while ((fin >> noskipws >> h) )
-			{
-			
-				 if ( h == '#'){
-				mapgrid[k][l]= * new wallCell();
-				}
-				 else if (h=='?')
-				 {
-					 mapgrid[k][l] = * new chestCell();
-				 }
-				  else if (h=='-')
-				 {
-					 mapgrid[k][l] = * new ExitMapCell();
-				 }
-			
-				 else
-				 {
-					 mapgrid[k][l] = * new cell();
-				 }
-				
-				break;
-			}
-			
-		}
-		
-	}
+		if (h == '#')
+			mapGrid[k][l] = *new WallCell();
+		else if (h == '?')
+			mapGrid[k][l] = *new ChestCell();
+		else if (h == '-')
+			mapGrid[k][l] = *new ExitMapCell();
+		else
+			mapGrid[k][l] = *new Cell();
 
+		break;
 	}
-	
-	
 }
-
-
-
-
-

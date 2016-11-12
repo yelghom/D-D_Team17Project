@@ -18,7 +18,6 @@ public:
 	// Constructors
 	Map();
 	Map(int x, int y);
-	Map(string s);
 
 	//! Destructor
 	~Map();
@@ -27,7 +26,6 @@ public:
 
 	void initializeMap();
 	void printMap();
-	void updatemap();
 	
 	void wallCellAt(int x, int y);
 	void chestCellAt(int x, int y);
@@ -37,12 +35,11 @@ public:
 
 	void saveMap();
 	void loadMap(string s);
-	int loadmaplengthX(string s);
-	int loadmapwidthY(string s);
+	int loadMapLengthX(string s);
+	int loadMapWidthY(string s);
 
 private:
 	unsigned int gridLengthX;
 	unsigned int gridWidthY;
-	const char player = '@';
 	Cell **mapGrid;
 };
