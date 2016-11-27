@@ -18,7 +18,7 @@ public:
 	// Constructors
 	Map();
 	Map(int x, int y);
-
+	Map(string s);
 	//! Destructor
 	~Map();
 
@@ -26,14 +26,14 @@ public:
 
 	void initializeMap();
 	void printMap();
-	
+
 	void wallCellAt(int x, int y);
 	void chestCellAt(int x, int y);
 	void emptyCellAt(int x, int y);
 	void characterCellAt(int x, int y);
 	void exitMapCellAt(int x, int y);
 
-	void saveMap();
+	void saveMap(string s);
 	void loadMap(string s);
 	int loadMapLengthX(string s);
 	int loadMapWidthY(string s);

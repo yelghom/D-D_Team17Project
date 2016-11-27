@@ -41,6 +41,18 @@ Map::Map(int x, int y)
 	initializeMap();
 }
 
+Map::Map(string s){
+	gridLengthX = loadMapLengthX(s);
+	gridWidthY = loadMapWidthY(s);
+	mapGrid = new Cell*[gridLengthX];
+	for (int i = 0; i < gridLengthX; i++){
+
+		mapGrid[i] = new Cell[gridWidthY];
+	}
+
+
+}
+
 //! Destructor removing pointers in the mapgrid array
 Map::~Map()
 {
@@ -141,6 +153,7 @@ void Map::emptyCellAt(int x, int y)
 //! Places a Character Cell at the following x and y coordinates.
 //! @param x, the x coordinate
 //! @param y, the y coordinate
+
 void Map::characterCellAt(int x, int y)
 {
 	while (x < 0 || x >= gridLengthX || y < 0 || y >= gridWidthY)
@@ -157,6 +170,7 @@ void Map::characterCellAt(int x, int y)
 //! Places a Exit Map Cell at the following x and y coordinates.
 //! @param x, the x coordinate
 //! @param y, the y coordinate
+
 void Map::exitMapCellAt(int x, int y)
 {
 	while (x < 0 || x >= gridLengthX || y < 0 || y >= gridWidthY)
@@ -171,9 +185,9 @@ void Map::exitMapCellAt(int x, int y)
 }
 
 //! Saves the current map to a file
-void Map::saveMap()
+void Map::saveMap(string s)
 {
-	ofstream myfile("myMap.txt");
+	ofstream myfile(s);
 
 	if (myfile.is_open())
 	{
@@ -223,7 +237,7 @@ int Map::loadMapWidthY(string s){
 //! Loads the map from a file.
 //! @param s, the file where the map is stored
 void Map::loadMap(string s){
-	fstream fin("myMap.txt", fstream::in);
+	fstream fin(s, fstream::in);
 	char h;
 	int k = 0;
 	int l = 0;
@@ -237,8 +251,8 @@ void Map::loadMap(string s){
 			mapGrid[k][l] = *new WallCell();
 		else if (h == '?')
 			mapGrid[k][l] = *new ChestCell();
-		else if (h == '-')
-			mapGrid[k][l] = *new ExitMapCell();
+		//else if (h == '-')
+		//mapGrid[k][l] = *new ExitMapCell();
 		else
 			mapGrid[k][l] = *new Cell();
 
