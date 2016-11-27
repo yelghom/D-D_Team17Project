@@ -4,6 +4,7 @@
 
 #include "Chest.h"
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -41,4 +42,12 @@ Chest::Chest()
 //! Destructor
 Chest::~Chest()
 {
+}
+
+//! Opens the chest and gets the item contained in the chest.
+//! @return string value, the item contained in the chest
+string Chest::openChest()
+{
+	cout << "You just opened a chest containing: " << itemType << endl;
+	return item;
 }

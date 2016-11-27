@@ -19,9 +19,7 @@ public:
 
 	// getters
 
-	//! Opens the chest and gets the item contained in the chest.
-	//! @return string value, the item contained in the chest
-	string openChest() const { return item; }
+	string openChest();
 
 	//! Gives the type of the item in the chest.
 	//! @return string value, the type of item in the chest
