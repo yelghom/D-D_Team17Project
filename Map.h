@@ -4,14 +4,19 @@
 //! @author Venelin Koulaxazov, 26982425
 #pragma once
 
+#include "Observable.h"
+#include <string>
+#include <vector>
+
 #include "Cell.h"
 
 #include <iostream>
 #include <fstream>
-#include <string.h>
+//#include <string.h>
 using namespace std;
 
-class Map{
+class Map : public Observable
+{
 
 public:
 
@@ -37,7 +42,13 @@ public:
 	void loadMap(string s);
 	int loadMapLengthX(string s);
 	int loadMapWidthY(string s);
-
+	void defaultMap();
+	void saveDefaultMap();
+	void faultyMapOne();
+	bool verifyMap1();
+	bool verifyMap2();
+	bool verifyMap3();
+	
 private:
 	unsigned int gridLengthX;
 	unsigned int gridWidthY;
