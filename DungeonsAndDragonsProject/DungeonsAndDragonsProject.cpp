@@ -7,6 +7,8 @@
 #include "Map.h"
 #include <iostream>
 #include <string>
+#include "MapSelector.h"
+
 Character* setupCharacter();
 Map* setupMap(Character* c);
 void gameLoop(Character* c, Map* map);
@@ -18,7 +20,11 @@ int Chest::chestItem = 1;
 void main(int argc, char* argv[])
 {
 	Character *conan = setupCharacter();
-	Map *map = setupMap(conan);
+	MapSelector *mapSelector = new MapSelector();
+	mapSelector->selectMap();
+	Map *map = new Map("gameMap.txt");
+	map->loadMap("gameMap.txt");
+	map->characterCellAt(conan->getXCoordinate(), conan->getYCoordinate());
 
 	gameLoop(conan, map);
 }
@@ -29,6 +35,7 @@ void main(int argc, char* argv[])
 void gameLoop(Character* c, Map* map)
 {
 	// print map
+	cout << endl << "Game start:" << endl;
 	map->printMap();
 
 	// Get the user choice for directions
@@ -125,7 +132,7 @@ void gameLoop(Character* c, Map* map)
 
 	if (userChoice == 'y')
 	{
-		map->saveMap();
+		map->saveMap("gameMap.txt");
 
 		cout << "Map successfully saved. Goodbye." << flush;
 		cin >> userChoice;

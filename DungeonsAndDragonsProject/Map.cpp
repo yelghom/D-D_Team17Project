@@ -3,6 +3,7 @@
 //! @author Yousra El Ghomari, 26855873
 //! @author Venelin Koulaxazov, 26982425
 
+#include <cmath>
 #include "Map.h"
 #include "Cell.h"
 #include "WallCell.h"
@@ -41,6 +42,7 @@ Map::Map(int x, int y)
 	initializeMap();
 }
 
+//! Constructor that takes in a file name in order to load a map from a file
 Map::Map(string s){
 	gridLengthX = loadMapLengthX(s);
 	gridWidthY = loadMapWidthY(s);
@@ -74,11 +76,53 @@ void Map::initializeMap()
 			// put wall cells at the extremities of the map
 			if (i == 0 || i == gridLengthX - 1 || j == 0 || j == gridWidthY - 1)
 				mapGrid[i][j] = *new WallCell();
+
 			else // empty cell for any other cells
 				mapGrid[i][j] = *new EmptyCell();
 		}
 	}
 
+}
+
+//! Creates a default map
+void Map::defaultMap(){
+
+	mapGrid[1][10] = *new ChestCell();
+	mapGrid[2][3] = *new WallCell();
+	mapGrid[2][6] = *new WallCell();
+	mapGrid[2][7] = *new WallCell();
+	mapGrid[2][14] = *new WallCell();
+	mapGrid[3][2] = *new WallCell();
+	mapGrid[3][3] = *new WallCell();
+	mapGrid[3][4] = *new WallCell();
+	mapGrid[3][5] = *new WallCell();
+	mapGrid[3][10] = *new WallCell();
+	mapGrid[3][12] = *new WallCell();
+	mapGrid[4][2] = *new ChestCell();
+	mapGrid[4][4] = *new WallCell();
+	mapGrid[4][7] = *new ChestCell();
+	mapGrid[4][8] = *new WallCell();
+	mapGrid[4][11] = *new WallCell();
+	mapGrid[5][7] = *new WallCell();
+	mapGrid[5][9] = *new ChestCell();
+	mapGrid[5][11] = *new ChestCell();
+	mapGrid[5][12] = *new WallCell();
+	mapGrid[5][13] = *new ChestCell();
+	mapGrid[6][9] = *new WallCell();
+	mapGrid[1][1] = *new CharacterCell();
+}
+
+
+void Map::faultyMapOne(){
+
+}
+
+//! Saves the default map to a file
+void Map::saveDefaultMap(){
+
+	Map *themap = new Map();
+	themap->defaultMap();
+	themap->saveMap("DefaultMap.txt");
 }
 
 //! Runs through the grid and prints out the map.
@@ -251,11 +295,77 @@ void Map::loadMap(string s){
 			mapGrid[k][l] = *new WallCell();
 		else if (h == '?')
 			mapGrid[k][l] = *new ChestCell();
-		//else if (h == '-')
-		//mapGrid[k][l] = *new ExitMapCell();
+		else if (h == '-')
+			mapGrid[k][l] = *new ExitMapCell();
+		else if (h == 'C')
+			mapGrid[k][l] = *new CharacterCell();
 		else
 			mapGrid[k][l] = *new Cell();
 
 		break;
 	}
 }
+
+//! Verifies if map is correct
+//! Based on the criterion that there shouldn't be a horizontal wall completely blocking the character from reaching the exit cell
+//! "incorrectMap1.txt" is the first example of an incorrect map
+bool Map::verifyMap1(){
+
+	for (int i = 1; i < gridLengthX - 1; i++)
+	{
+		int count = 0;
+		for (unsigned int j = 1; j < gridWidthY - 1; j++){
+			if (mapGrid[i][j].getType() == '#')
+				count++;
+		}
+		if (count == (gridWidthY - 2))
+		{
+			cout << "invalid Map" << endl;
+			return false;
+		}
+
+	}
+	cout << "valid Map" << endl;
+	return true;
+}
+
+//! Verifies if map is correct
+//! Based on the criterion that there shouldn't be a vertical wall completely blocking the character from reaching the exit cell
+//! "incorrectMap2.txt" is the second example of an incorrect map
+bool Map::verifyMap2(){
+	for (int i = 1; i < gridWidthY - 1; i++)
+	{
+		int count = 0;
+		for (unsigned int j = 1; j < gridLengthX - 1; j++){
+			if (mapGrid[i][j].getType() == '#')
+				count++;
+		}
+		if (count == (gridWidthY - 2))
+		{
+			cout << "invalid Map" << endl;
+			return false;
+		}
+
+	}
+	cout << "valid Map" << endl;
+	return true;
+}
+
+//! Verifies if map is correct
+//! Based on the criterion that there exists a wall in front of the exit preventing the character from reaching the exit map
+//! "incorrectMap3.txt" is the third example of an incorrect map
+bool Map::verifyMap3(){
+
+	if (mapGrid[(gridLengthX - 2)][(gridWidthY - 2)].getType() == '#')
+	{
+		cout << "invalid map" << endl;
+		return false;
+	}
+	else
+	{
+		cout << "valid Map" << endl;
+		return true;
+	}
+}
+
+
