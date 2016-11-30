@@ -17,9 +17,7 @@ void MapSelector::selectMap()
 	cout << "Menu \n 1. Choose a Standard Map\n 2. Create Custom Map\n 3.Upload saved Map from file" << endl;
 	int mapType;
 	int mapChoice = 0;
-	int width, length;
 	char cellChoice = 'e';
-	int indexX, indexY;
 	string filename;
 	cout << "Enter your choice (1,2,3): " << flush;
 	cin >> mapType;
@@ -53,8 +51,6 @@ void MapSelector::selectMap()
 			   sMap1->loadMap("standardMap1.txt");
 			   sMap1->saveMap("gameMap.txt");
 	}
-
-
 	}
 	//!testing for invalid maps 
 	//! First incorrect map

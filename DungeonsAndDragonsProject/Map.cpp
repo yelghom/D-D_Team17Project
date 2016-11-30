@@ -11,6 +11,8 @@
 #include "EmptyCell.h"
 #include "CharacterCell.h"
 #include "ExitMapCell.h"
+#include "EnemyCell.h"
+#include "HealthCell.h"
 
 #include <fstream>
 #include <iostream>
@@ -47,16 +49,14 @@ Map::Map(string s){
 	gridLengthX = loadMapLengthX(s);
 	gridWidthY = loadMapWidthY(s);
 	mapGrid = new Cell*[gridLengthX];
-	for (int i = 0; i < gridLengthX; i++){
-
+	for (unsigned int i = 0; i < gridLengthX; i++)
 		mapGrid[i] = new Cell[gridWidthY];
-	}
 }
 
 //! Destructor removing pointers in the mapgrid array
 Map::~Map()
 {
-	for (int i = 0; i < gridWidthY; i++)
+	for (unsigned int i = 0; i < gridWidthY; i++)
 		delete[] mapGrid[i];
 	delete[] mapGrid;
 }
@@ -65,12 +65,12 @@ Map::~Map()
 void Map::initializeMap()
 {
 	// populate entire grid
-	for (int i = 0; i < gridLengthX; i++)
+	for (unsigned int i = 0; i < gridLengthX; i++)
 		mapGrid[i] = new Cell[gridWidthY];
 
-	for (int i = 0; i < gridLengthX; i++)
+	for (unsigned int i = 0; i < gridLengthX; i++)
 	{
-		for (int j = 0; j < gridWidthY; j++){
+		for (unsigned int j = 0; j < gridWidthY; j++){
 			// put wall cells at the extremities of the map
 			if (i == 0 || i == gridLengthX - 1 || j == 0 || j == gridWidthY - 1)
 				mapGrid[i][j] = *new WallCell();
@@ -127,7 +127,7 @@ void Map::saveDefaultMap(){
 void Map::printMap()
 {
 
-	for (int i = 0; i < gridLengthX; i++)
+	for (unsigned int i = 0; i < gridLengthX; i++)
 	{
 		for (unsigned int j = 0; j < gridWidthY; j++)
 			cout << mapGrid[i][j].getType();
@@ -226,6 +226,40 @@ void Map::exitMapCellAt(int x, int y)
 	mapGrid[x][y] = *new ExitMapCell();
 }
 
+//! Places a Enemy Cell at the following x and y coordinates.
+//! @param x, the x coordinate
+//! @param y, the y coordinate
+
+void Map::enemyCellAt(int x, int y)
+{
+	while (x < 0 || x >= gridLengthX || y < 0 || y >= gridWidthY)
+	{
+		cout << "Undefined coordinates, please try again." << endl;
+		cin >> x;
+		cin >> y;
+		enemyCellAt(x, y);
+	};
+
+	mapGrid[x][y] = *new EnemyCell();
+}
+
+//! Places a Health Cell at the following x and y coordinates.
+//! @param x, the x coordinate
+//! @param y, the y coordinate
+
+void Map::healthCellAt(int x, int y)
+{
+	while (x < 0 || x >= gridLengthX || y < 0 || y >= gridWidthY)
+	{
+		cout << "Undefined coordinates, please try again." << endl;
+		cin >> x;
+		cin >> y;
+		healthCellAt(x, y);
+	};
+
+	mapGrid[x][y] = *new HealthCell();
+}
+
 //! Saves the current map to a file
 void Map::saveMap(string s)
 {
@@ -233,7 +267,7 @@ void Map::saveMap(string s)
 
 	if (myfile.is_open())
 	{
-		for (int i = 0; i < gridLengthX; i++)
+		for (unsigned int i = 0; i < gridLengthX; i++)
 		{
 			for (unsigned int j = 0; j < gridWidthY; j++)
 				myfile << mapGrid[i][j].getType();
@@ -281,8 +315,8 @@ int Map::loadMapWidthY(string s){
 void Map::loadMap(string s){
 	fstream fin(s, fstream::in);
 	char h;
-	int k = 0;
-	int l = 0;
+	unsigned int k = 0;
+	unsigned int l = 0;
 
 	//loops through the grid and maps the characters of the map to the corresponding object cell
 	for (k = 0; k <= gridLengthX; k++)
@@ -297,6 +331,10 @@ void Map::loadMap(string s){
 			mapGrid[k][l] = *new ExitMapCell();
 		else if (h == 'C')
 			mapGrid[k][l] = *new CharacterCell();
+		else if (h == 'E')
+			mapGrid[k][l] = *new EnemyCell();
+		else if (h == '+')
+			mapGrid[k][l] = *new HealthCell();
 		else
 			mapGrid[k][l] = *new Cell();
 
@@ -309,7 +347,7 @@ void Map::loadMap(string s){
 //! "incorrectMap1.txt" is the first example of an incorrect map
 bool Map::verifyMap1(){
 
-	for (int i = 1; i < gridLengthX - 1; i++)
+	for (unsigned int i = 1; i < gridLengthX - 1; i++)
 	{
 		int count = 0;
 		for (unsigned int j = 1; j < gridWidthY - 1; j++){
@@ -331,7 +369,7 @@ bool Map::verifyMap1(){
 //! Based on the criterion that there shouldn't be a vertical wall completely blocking the character from reaching the exit cell
 //! "incorrectMap2.txt" is the second example of an incorrect map
 bool Map::verifyMap2(){
-	for (int i = 1; i < gridWidthY - 1; i++)
+	for (unsigned int i = 1; i < gridWidthY - 1; i++)
 	{
 		int count = 0;
 		for (unsigned int j = 1; j < gridLengthX - 1; j++){
@@ -369,7 +407,7 @@ bool Map::verifyMap3(){
 //! Gets the x coordinate of the Character cell
 int Map::getCharacterCellXCoordinate()
 {
-	for (int i = 0; i < gridLengthX; i++)
+	for (unsigned int i = 0; i < gridLengthX; i++)
 	for (unsigned int j = 0; j < gridWidthY; j++)
 	if (mapGrid[i][j].getType() == 'C')
 		return i;
@@ -379,10 +417,8 @@ int Map::getCharacterCellXCoordinate()
 //! Gets the y coordinate of the Character cell
 int Map::getCharacterCellYCoordinate()
 {
-	for (int i = 0; i < gridLengthX; i++)
+	for (unsigned int i = 0; i < gridLengthX; i++)
 	for (unsigned int j = 0; j < gridWidthY; j++)
 	if (mapGrid[i][j].getType() == 'C')
 		return j;
 }
-
-

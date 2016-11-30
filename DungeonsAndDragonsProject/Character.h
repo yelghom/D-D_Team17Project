@@ -127,6 +127,7 @@ public:
 
 	bool validateNewCharacter();
 	void hit(int hitPoints);
+	void replenishHitPoints(int hitPoints);
 
 	void addToArmorInventory(string armor);
 	void addToShieldInventory(string shield);

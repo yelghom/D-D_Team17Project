@@ -12,10 +12,9 @@ using namespace std;
 //! creates the modifiers for each ability.
 Character::Character()
 {
-	// loop through the ability scores array and assign random values between the range of 3-18.
 	for (int i = 0; i < 6; i++)
 	{
-		abilityScores.push_back(3 + rand() % 15);
+		abilityScores.push_back(11 + rand() % 7);
 	}
 
 	//Set ability modifiers
@@ -388,7 +387,6 @@ void Character::displayInventory()
 
 	string userChoice;
 	string inventoryChoice;
-	char inventoryItem[8];
 	int inventoryNumber;
 	// give user the choice to equip something
 	cout << "Do you wish to equip your character with something else? Yes (y) or No (n): " << flush;
@@ -540,4 +538,10 @@ void Character::displayHelmetInventory(){
 		cout << helmetInventory[i] << " (" << i << "), ";
 	}
 	cout << endl;
+}
+
+//! Adds the specified number of hit points to the Character.
+void Character::replenishHitPoints(int hitPoints)
+{
+	this->hitPoints += hitPoints;
 }

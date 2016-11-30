@@ -8,10 +8,13 @@
 #include <iostream>
 #include <string>
 #include "MapSelector.h"
+#include "HealthBox.h"
 
 Character* setupCharacter();
 void gameLoop(Character* c, Map* map);
 void openChest(Character* c, Chest* chest);
+void openHealthBox(Character* c, HealthBox* healthBox);
+bool handleBattle(Character* c, Character* e);
 
 int Chest::chestItem = 1;
 
@@ -48,7 +51,7 @@ void gameLoop(Character* c, Map* map)
 		switch (userChoice)
 		{
 		case 'w': // user wants to go up
-			switch (map->getCellAt(c->getXCoordinate() -1, c->getYCoordinate()).getType()) 
+			switch (map->getCellAt(c->getXCoordinate() - 1, c->getYCoordinate()).getType())
 			{
 			case '#':
 				break; // cannot move past a wall
@@ -61,6 +64,23 @@ void gameLoop(Character* c, Map* map)
 				map->emptyCellAt(c->getXCoordinate(), c->getYCoordinate());
 				c->setXCoordinate(c->getXCoordinate() - 1); // move character up and open chest
 				openChest(c, new Chest());
+				map->characterCellAt(c->getXCoordinate(), c->getYCoordinate());
+				break;
+			case 'E':
+				if (handleBattle(c, new Character()))
+				{
+					cout << "Your character won this battle with " << c->getHitPoints() << " hit points left!" << endl;
+					map->emptyCellAt(c->getXCoordinate(), c->getYCoordinate());
+					c->setXCoordinate(c->getXCoordinate() - 1); // character won battle, move up
+					map->characterCellAt(c->getXCoordinate(), c->getYCoordinate());
+				}
+				else
+					userChoice = 'l'; // character lost battle, end game
+				break;
+			case '+':
+				map->emptyCellAt(c->getXCoordinate(), c->getYCoordinate());
+				c->setXCoordinate(c->getXCoordinate() - 1); // move character up and open health box
+				openHealthBox(c, new HealthBox());
 				map->characterCellAt(c->getXCoordinate(), c->getYCoordinate());
 			}
 			break;
@@ -79,6 +99,17 @@ void gameLoop(Character* c, Map* map)
 				c->setYCoordinate(c->getYCoordinate() - 1); // move character left and open chest
 				openChest(c, new Chest());
 				map->characterCellAt(c->getXCoordinate(), c->getYCoordinate());
+				break;
+			case 'E':
+				if (handleBattle(c, new Character()))
+				{
+					cout << "Your character won this battle with " << c->getHitPoints() << " hit points left!" << endl;
+					map->emptyCellAt(c->getXCoordinate(), c->getYCoordinate());
+					c->setXCoordinate(c->getXCoordinate() - 1); // character won battle, move up
+					map->characterCellAt(c->getXCoordinate(), c->getYCoordinate());
+				}
+				else
+					userChoice = 'l'; // character lost battle, end game
 			}
 			break;
 		case 's': // user wants to go down
@@ -96,10 +127,21 @@ void gameLoop(Character* c, Map* map)
 				c->setXCoordinate(c->getXCoordinate() + 1); // move character down and open chest
 				openChest(c, new Chest());
 				map->characterCellAt(c->getXCoordinate(), c->getYCoordinate());
+				break;
+			case 'E':
+				if (handleBattle(c, new Character()))
+				{
+					cout << "Your character won this battle with " << c->getHitPoints() << " hit points left!" << endl;
+					map->emptyCellAt(c->getXCoordinate(), c->getYCoordinate());
+					c->setXCoordinate(c->getXCoordinate() - 1); // character won battle, move up
+					map->characterCellAt(c->getXCoordinate(), c->getYCoordinate());
+				}
+				else
+					userChoice = 'l'; // character lost battle, end game
 			}
 			break;
 		case 'd': // user wants to go right
-			switch (map->getCellAt(c->getXCoordinate(), c->getYCoordinate() + 1).getType()) 
+			switch (map->getCellAt(c->getXCoordinate(), c->getYCoordinate() + 1).getType())
 			{
 			case '#':
 				break; // cannot move past a wall
@@ -113,13 +155,25 @@ void gameLoop(Character* c, Map* map)
 				c->setYCoordinate(c->getYCoordinate() + 1); // move character down and open chest
 				openChest(c, new Chest());
 				map->characterCellAt(c->getXCoordinate(), c->getYCoordinate());
-			}			
+				break;
+			case 'E':
+				if (handleBattle(c, new Character()))
+				{
+					cout << "Your character won this battle with " << c->getHitPoints() << " hit points left!" << endl;
+					map->emptyCellAt(c->getXCoordinate(), c->getYCoordinate());
+					c->setXCoordinate(c->getXCoordinate() - 1); // character won battle, move up
+					map->characterCellAt(c->getXCoordinate(), c->getYCoordinate());
+				}
+				else
+					userChoice = 'l'; // character lost battle, end game
+			}
 			break;
 		case 'i':
 			c->displayInventory();
 		}
 
-
+		if (userChoice == 'l')
+			break;
 		// print updated map and ask for future directions
 		cout << endl;
 		map->printMap();
@@ -127,16 +181,23 @@ void gameLoop(Character* c, Map* map)
 		cin >> userChoice;
 	}
 
-	cout << "Do you wish to save this map for a later game? Yes (y) or No (n): " << flush;
-	cin >> userChoice;
-
-	if (userChoice == 'y')
+	if (userChoice == 'l')
 	{
-		map->saveMap("gameMap.txt");
-
-		cout << "Map successfully saved. Goodbye." << flush;
-		cin >> userChoice;
+		cout << "You have lost the battle. Goodbye." << endl;
 	}
+	else
+	{
+		cout << "Do you wish to save this map for a later game? Yes (y) or No (n): " << flush;
+		cin >> userChoice;
+
+		if (userChoice == 'y')
+		{
+			map->saveMap("gameMap.txt");
+			cout << "Map successfully saved. Goodbye." << endl;
+		}
+	}
+	system("PAUSE");
+
 }
 
 //! Opens the chest and adds the item to the inventory panel of the Character.
@@ -162,7 +223,7 @@ void openChest(Character* c, Chest* chest)
 //! @return Character object, the newly created Character
 Character* setupCharacter()
 {
-	Character *conan = new Character();
+	Character *conan = new Character(18, 18, 18, 18, 18, 18);
 	conan->addToArmorInventory("smallArmor");
 	conan->addToArmorInventory("bigArmor");
 	conan->equipArmor("mediumArmor");
@@ -172,4 +233,29 @@ Character* setupCharacter()
 	conan->equipBoots("mediumBoots");
 
 	return conan;
+}
+
+//! Handles a battle between the character and an enemy
+//! @return boolean value, whether or not the character won the battle.
+bool handleBattle(Character* c, Character* e)
+{
+	cout << "Your character has engaged into a battle with an enemy. " << endl;
+	while (c->getHitPoints() > 0 && e->getHitPoints() > 0)
+	{
+		c->hit(e->getAttackBonus());
+		e->hit(c->getAttackBonus());
+	}
+
+	if (c->getHitPoints() > 0)
+		return true;
+	else
+		return false;
+}
+
+//! Opens the health box and replenishes hit points of the Character.
+//! @param c, the character
+//! @param healthBox, the health box to be opened
+void openHealthBox(Character* c, HealthBox* healthBox)
+{
+	c->replenishHitPoints(healthBox->getHealthValue());
 }

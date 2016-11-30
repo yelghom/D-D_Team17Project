@@ -36,6 +36,8 @@ public:
 	void emptyCellAt(int x, int y);
 	void characterCellAt(int x, int y);
 	void exitMapCellAt(int x, int y);
+	void enemyCellAt(int x, int y);
+	void healthCellAt(int x, int y);
 
 	void saveMap(string s);
 	void loadMap(string s);
