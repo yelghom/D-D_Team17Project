@@ -51,8 +51,6 @@ Map::Map(string s){
 
 		mapGrid[i] = new Cell[gridWidthY];
 	}
-
-
 }
 
 //! Destructor removing pointers in the mapgrid array
@@ -366,6 +364,25 @@ bool Map::verifyMap3(){
 		cout << "valid Map" << endl;
 		return true;
 	}
+}
+
+//! Gets the x coordinate of the Character cell
+int Map::getCharacterCellXCoordinate()
+{
+	for (int i = 0; i < gridLengthX; i++)
+	for (unsigned int j = 0; j < gridWidthY; j++)
+	if (mapGrid[i][j].getType() == 'C')
+		return i;
+
+}
+
+//! Gets the y coordinate of the Character cell
+int Map::getCharacterCellYCoordinate()
+{
+	for (int i = 0; i < gridLengthX; i++)
+	for (unsigned int j = 0; j < gridWidthY; j++)
+	if (mapGrid[i][j].getType() == 'C')
+		return j;
 }
 
 

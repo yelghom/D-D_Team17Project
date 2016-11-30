@@ -48,6 +48,9 @@ public:
 	bool verifyMap2();
 	bool verifyMap3();
 
+	int getCharacterCellXCoordinate();
+	int getCharacterCellYCoordinate();
+
 private:
 	unsigned int gridLengthX;
 	unsigned int gridWidthY;

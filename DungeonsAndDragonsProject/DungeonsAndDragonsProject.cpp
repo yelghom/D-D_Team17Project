@@ -10,7 +10,6 @@
 #include "MapSelector.h"
 
 Character* setupCharacter();
-Map* setupMap(Character* c);
 void gameLoop(Character* c, Map* map);
 void openChest(Character* c, Chest* chest);
 
@@ -24,7 +23,8 @@ void main(int argc, char* argv[])
 	mapSelector->selectMap();
 	Map *map = new Map("gameMap.txt");
 	map->loadMap("gameMap.txt");
-	map->characterCellAt(conan->getXCoordinate(), conan->getYCoordinate());
+	conan->setXCoordinate(map->getCharacterCellXCoordinate());
+	conan->setYCoordinate(map->getCharacterCellYCoordinate());
 
 	gameLoop(conan, map);
 }
@@ -173,45 +173,3 @@ Character* setupCharacter()
 
 	return conan;
 }
-
-//! Creates and populates a map with multiple cells to provide a more interactive game.
-//! @param c, the Character on the map
-Map* setupMap(Character* c)
-{
-	Map *map = new Map();
-	map->characterCellAt(c->getXCoordinate(), c->getYCoordinate());
-	
-	// create chest cells
-	map->chestCellAt(6, 6);
-	map->chestCellAt(2, 5);
-	map->chestCellAt(3, 11);
-	map->chestCellAt(6, 8);
-
-	// create extra wall cells
-	map->wallCellAt(1, 4);
-	map->wallCellAt(2, 4);
-	map->wallCellAt(3, 4);
-	map->wallCellAt(5, 4);
-	map->wallCellAt(3, 5);
-	map->wallCellAt(5, 5);
-	map->wallCellAt(2, 6);
-	map->wallCellAt(3, 6);
-	map->wallCellAt(5, 6);
-	map->wallCellAt(5, 7);
-	map->wallCellAt(6, 7);
-	map->wallCellAt(5, 8);
-	map->wallCellAt(5, 9);
-	map->wallCellAt(2, 10);
-	map->wallCellAt(3, 10);
-	map->wallCellAt(4, 10);
-	map->wallCellAt(5, 10);
-	map->wallCellAt(2, 11);
-	map->wallCellAt(2, 12);
-	map->wallCellAt(3, 12);
-	map->wallCellAt(4, 12);
-
-	// create exit map cell
-	map->exitMapCellAt(5, 15);
-	return map;
-}
-
